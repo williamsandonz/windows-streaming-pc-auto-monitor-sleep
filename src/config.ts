@@ -4,6 +4,8 @@ import { join } from 'node:path';
 export interface Config {
   /** Pause after login so the graphics and virtual display drivers finish initialising. */
   delaySeconds: number;
+  /** How long to keep checking that the display stays off, re-sending the command if it wakes by itself. 0 sends once and exits. */
+  verifySeconds: number;
   nircmdPath: string;
   dryRun: boolean;
 }
@@ -52,6 +54,7 @@ export function loadConfig(): Config {
 
   return {
     delaySeconds: readNonNegativeNumber('DELAY_SECONDS', 5),
+    verifySeconds: readNonNegativeNumber('VERIFY_SECONDS', 60),
     nircmdPath: resolveNircmdPath(),
     dryRun: readBoolean('DRY_RUN', false),
   };

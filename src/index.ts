@@ -1,6 +1,6 @@
 import { loadConfig } from './config';
 import { describeError, log, logError } from './log';
-import { turnMonitorOff } from './monitor';
+import { ensureMonitorOff } from './monitor';
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -16,7 +16,7 @@ async function main(): Promise<void> {
   log(`Waiting ${config.delaySeconds}s for the graphics and virtual display drivers to initialise.`);
   await sleep(config.delaySeconds * 1000);
 
-  await turnMonitorOff(config.nircmdPath, config.dryRun);
+  await ensureMonitorOff(config);
 }
 
 main().catch((err) => {
